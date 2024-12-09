@@ -110,7 +110,7 @@ export function AddDomainModal({
           clickedPlan={linkType === "DATAROOM_LINK" ? "Data Rooms" : "Business"}
           trigger={"add_domain_overview"}
         >
-          <Button>Upgrade to Add Domain</Button>
+          <Button className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-white">Upgrade to Add Domain</Button>
         </UpgradePlanModal>
       );
     } else {

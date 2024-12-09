@@ -108,14 +108,14 @@ export default function WebhookSettings() {
       <main className="relative mx-2 mb-10 mt-4 space-y-8 overflow-hidden px-1 sm:mx-3 md:mx-5 md:mt-5 lg:mx-7 lg:mt-8 xl:mx-10">
         <SettingsHeader />
 
-        <div className="rounded-lg border border-gray-200 bg-white">
+        <div className="bg-white">
           <div className="flex flex-col items-center justify-between gap-4 space-y-3 border-b border-gray-200 p-5 sm:flex-row sm:space-y-0 sm:p-10">
             <div className="flex max-w-screen-sm flex-col space-y-3">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-medium">Incoming Webhooks</h2>
-                <BadgeTooltip content="Use webhooks to receive data from external services">
+                <h2 className="text-xl font-medium">Use webhooks to receive data from external services</h2>
+                {/* <BadgeTooltip content="Use webhooks to receive data from external services">
                   <CircleHelpIcon className="h-4 w-4 text-gray-500" />
-                </BadgeTooltip>
+                </BadgeTooltip> */}
               </div>
               <p className="text-sm text-gray-500">
                 Create incoming webhooks to receive data from external services
@@ -148,7 +148,7 @@ export default function WebhookSettings() {
               <Button
                 onClick={createWebhook}
                 disabled={!name || isLoading}
-                className="w-fit"
+                className="w-fit bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-white"
               >
                 {isLoading ? "Creating..." : "Create Webhook"}
               </Button>

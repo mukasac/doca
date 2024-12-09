@@ -1,9 +1,7 @@
 import { useState } from "react";
-
 import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
 import { mutate } from "swr";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,11 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { useAnalytics } from "@/lib/analytics";
 import { usePlan } from "@/lib/swr/use-billing";
-
-import { UpgradePlanModal } from "../billing/upgrade-plan-modal";
 
 export function AddDataroomModal({
   children,
@@ -36,7 +31,6 @@ export function AddDataroomModal({
   const [open, setOpen] = useState<boolean>(openModal);
 
   const teamInfo = useTeam();
-  const { plan } = usePlan();
   const analytics = useAnalytics();
 
   const handleSubmit = async (event: any) => {
@@ -82,20 +76,6 @@ export function AddDataroomModal({
       if (openModal && setOpenModal) setOpenModal(false);
     }
   };
-
-  // If the team is on a free plan, show the upgrade modal
-  if (plan === "free" || plan === "pro") {
-    if (children) {
-      return (
-        <UpgradePlanModal
-          clickedPlan="Data Rooms"
-          trigger={"add_dataroom_overview"}
-        >
-          {children}
-        </UpgradePlanModal>
-      );
-    }
-  }
 
   const onOpenChange = (open: boolean) => {
     if (!open) {

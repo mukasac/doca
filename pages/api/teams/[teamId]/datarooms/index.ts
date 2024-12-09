@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { getLimits } from "@/ee/limits/server";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import slugify from "@sindresorhus/slugify";
 import { getServerSession } from "next-auth/next";
-
 import { newId } from "@/lib/id-helper";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
@@ -65,19 +62,14 @@ export default async function handle(
     }
 
     const userId = (session.user as CustomUser).id;
-
     const { teamId } = req.query as { teamId: string };
     const { name } = req.body as { name: string };
 
     try {
-      // Check if the user is part of the team
+      // Only check if user is part of the team, remove plan restrictions
       const team = await prisma.team.findUnique({
         where: {
           id: teamId,
-          plan: {
-            // exclude all teams not on `business`, `datarooms`, `business+old`, `datarooms+old` plan
-            in: ["business", "datarooms", "business+old", "datarooms+old"],
-          },
           users: {
             some: {
               userId: userId,
@@ -90,21 +82,7 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      // Limits: Check if the user has reached the limit of datarooms in the team
-      const dataroomCount = await prisma.dataroom.count({
-        where: {
-          teamId: teamId,
-        },
-      });
-
-      const limits = await getLimits({ teamId, userId });
-
-      if (limits && dataroomCount >= limits.datarooms) {
-        return res
-          .status(403)
-          .json({ message: "You have reached the limit of datarooms" });
-      }
-
+      // Remove dataroom limit check
       const pId = newId("dataroom");
 
       const dataroom = await prisma.dataroom.create({
@@ -126,7 +104,6 @@ export default async function handle(
       res.status(500).json({ error: "Error creating dataroom" });
     }
   } else {
-    // We only allow POST requests
     res.setHeader("Allow", ["GET", "POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }

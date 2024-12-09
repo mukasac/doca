@@ -99,7 +99,7 @@ export default function DomainSection({
           </SelectTrigger>
           <SelectContent className="flex w-full rounded-md border border-input bg-white text-foreground placeholder-muted-foreground focus:border-muted-foreground focus:outline-none focus:ring-inset focus:ring-muted-foreground dark:border-gray-500 dark:bg-gray-800 focus:dark:bg-transparent sm:text-sm">
             <SelectItem value="papermark.io" className="hover:bg-muted">
-              papermark.io
+              doctrack.com
             </SelectItem>
             {linkType === "DOCUMENT_LINK" &&
               (plan === "business" || (limits && limits.customDomainOnPro)) && (

@@ -19,7 +19,7 @@ interface TrialEndFinalReminderEmail {
 }
 
 const TrialEndFinalReminderEmail = ({ name }: TrialEndFinalReminderEmail) => {
-  const previewText = `Upgrade to Papermark Pro`;
+  const previewText = `Upgrade to Doctrack Pro`;
 
   return (
     <Html>
@@ -29,7 +29,7 @@ const TrialEndFinalReminderEmail = ({ name }: TrialEndFinalReminderEmail) => {
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">Doctrack</span>
             </Text>
             <Text className="font-seminbold mx-0 mb-8 mt-4 p-0 text-center text-xl">
               Your pro trial expires in 24 hours
@@ -38,7 +38,7 @@ const TrialEndFinalReminderEmail = ({ name }: TrialEndFinalReminderEmail) => {
               Hey{name && ` ${name}`}!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              Your Papermark Pro trial expires in 24 hours.{" "}
+              Your Doctrack Pro trial expires in 24 hours.{" "}
               <Link href={`https://app.papermark.io/settings/billing`}>
                 Upgrade now
               </Link>{" "}
@@ -80,7 +80,7 @@ const TrialEndFinalReminderEmail = ({ name }: TrialEndFinalReminderEmail) => {
                   className="text-gray-400 no-underline visited:text-gray-400 hover:text-gray-400"
                   target="_blank"
                 >
-                  papermark.io
+                  doctrack.com
                 </a>
               </Text>
               <Text className="text-xs">

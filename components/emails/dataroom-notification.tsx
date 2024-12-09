@@ -68,7 +68,7 @@ export default function DataroomNotification({
                   className="text-gray-400 no-underline visited:text-gray-400 hover:text-gray-400"
                   target="_blank"
                 >
-                  papermark.io
+                  doctrack.com
                 </a>
               </Text>
               <Text className="text-xs">
@@ -76,7 +76,7 @@ export default function DataroomNotification({
                 <span className="font-semibold">{senderEmail}</span> because you
                 viewed the dataroom{" "}
                 <span className="font-semibold">{dataroomName}</span> on
-                Papermark. If you have any feedback or questions about this
+                DocTrack. If you have any feedback or questions about this
                 email, simply reply to it. To unsubscribe from updates about
                 this dataroom,{" "}
                 <a

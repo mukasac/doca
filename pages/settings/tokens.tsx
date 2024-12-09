@@ -117,14 +117,12 @@ export default function TokenSettings() {
           <div className="flex flex-col items-center justify-between gap-4 space-y-3 border-b border-gray-200 p-5 sm:flex-row sm:space-y-0 sm:p-10">
             <div className="flex max-w-screen-sm flex-col space-y-3">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-medium">API Tokens</h2>
-                <BadgeTooltip content="Use these tokens to authenticate your API requests">
-                  <CircleHelpIcon className="h-4 w-4 text-gray-500" />
-                </BadgeTooltip>
+                <h2 className="text-xl font-medium">Use these tokens to authenticate your API requests.</h2>
+                
               </div>
               <p className="text-sm text-gray-500">
-                Create API tokens to integrate Papermark with your applications.
-                Keep your tokens secure and never share them publicly.
+                Create API tokens to integrate Doctrack with your applications.
+                Never share your tokens publicly.
               </p>
             </div>
           </div>
@@ -155,7 +153,7 @@ export default function TokenSettings() {
               <Button
                 onClick={generateToken}
                 disabled={!name || isLoading}
-                className="w-fit"
+                className="w-fit bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-white"
               >
                 {isLoading ? "Generating..." : "Generate Token"}
               </Button>

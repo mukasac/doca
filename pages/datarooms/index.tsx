@@ -1,50 +1,33 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-import { useEffect } from "react";
-
 import { PlusIcon } from "lucide-react";
-
-import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { AddDataroomModal } from "@/components/datarooms/add-dataroom-modal";
-import { DataroomTrialModal } from "@/components/datarooms/dataroom-trial-modal";
 import { EmptyDataroom } from "@/components/datarooms/empty-dataroom";
 import AppLayout from "@/components/layouts/app";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-
 import { usePlan } from "@/lib/swr/use-billing";
 import useDatarooms from "@/lib/swr/use-datarooms";
 import useLimits from "@/lib/swr/use-limits";
-import { daysLeft } from "@/lib/utils";
 
 export default function DataroomsPage() {
   const { datarooms } = useDatarooms();
-  const { plan, trial } = usePlan();
-  const { limits } = useLimits();
   const router = useRouter();
 
-  const numDatarooms = datarooms?.length ?? 0;
-  const limitDatarooms = limits?.datarooms ?? 1;
-
-  const isFree = plan === "free";
-  const isPro = plan === "pro";
-  const isBusiness = plan === "business";
-  const isDatarooms = plan === "datarooms";
-  const isTrial = !!trial;
-  const canCreateUnlimitedDatarooms =
-    isDatarooms || (isBusiness && numDatarooms < limitDatarooms);
-
-  useEffect(() => {
-    if (!isTrial && (isFree || isPro)) router.push("/documents");
-  }, [isTrial, isFree, isPro]);
+  // Keep these but don't use them for restrictions
+  const { plan, trial } = usePlan();
+  const { limits } = useLimits();
+  
+  // Set these to values that allow access
+  const isDatarooms = true;  // Override to allow dataroom access
+  const isBusiness = true;   // Override to allow business features
+  const canCreateUnlimitedDatarooms = true;  // Allow unlimited dataroom creation
 
   return (
     <AppLayout>
@@ -59,52 +42,16 @@ export default function DataroomsPage() {
             </p>
           </div>
           <div className="flex items-center gap-x-1">
-            {isBusiness && !canCreateUnlimitedDatarooms ? (
-              <UpgradePlanModal clickedPlan="Data Rooms" trigger="datarooms">
-                <Button
-                  className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                  title="Upgrade to Add Data Room"
-                >
-                  <span>Upgrade to Add Data Room</span>
-                </Button>
-              </UpgradePlanModal>
-            ) : isTrial && datarooms && !isBusiness && !isDatarooms ? (
-              <div className="flex items-center gap-x-4">
-                <div className="text-sm text-destructive">
-                  <span>Dataroom Trial: </span>
-                  <span className="font-medium">
-                    {daysLeft(new Date(datarooms[0].createdAt), 7)} days left
-                  </span>
-                </div>
-                <UpgradePlanModal clickedPlan="Data Rooms" trigger="datarooms">
-                  <Button
-                    className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                    title="Upgrade to Add Data Room"
-                  >
-                    <span>Upgrade to Add Data Room</span>
-                  </Button>
-                </UpgradePlanModal>
-              </div>
-            ) : isBusiness || isDatarooms ? (
-              <AddDataroomModal>
-                <Button
-                  className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                  title="Create New Document"
-                >
-                  <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                  <span>Create New Dataroom</span>
-                </Button>
-              </AddDataroomModal>
-            ) : (
-              <DataroomTrialModal>
-                <Button
-                  className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                  title="Start Data Room Trial"
-                >
-                  <span>Start Data Room Trial</span>
-                </Button>
-              </DataroomTrialModal>
-            )}
+            {/* Simplified button to always show Add Dataroom */}
+            <AddDataroomModal>
+              <Button
+                className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
+                title="Create New Document"
+              >
+                <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
+                <span>Create New Dataroom</span>
+              </Button>
+            </AddDataroomModal>
           </div>
         </section>
 
@@ -122,7 +69,6 @@ export default function DataroomsPage() {
                           {dataroom.name}
                         </CardTitle>
                       </div>
-                      {/* <CardDescription>{dataroom.pId}</CardDescription> */}
                     </CardHeader>
                     <CardContent>
                       <dl className="divide-y divide-gray-100 text-sm leading-6">

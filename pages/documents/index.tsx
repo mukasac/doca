@@ -20,57 +20,57 @@ export default function Documents() {
 
   return (
     <AppLayout>
-      <div className="sticky top-0 z-50 bg-white p-4 pb-0 dark:bg-gray-900 sm:mx-4 sm:pt-8">
-        <section className="mb-4 flex items-center justify-between space-x-2 sm:space-x-0">
-          <div className="space-y-0 sm:space-y-1">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-              All Documents
-            </h2>
-            <p className="text-xs leading-4 text-muted-foreground sm:text-sm sm:leading-none">
-              Manage all your documents in one place.
-            </p>
+      <div className=" p-6  sm:mx-4 sm:mt-6">
+        {/* Header Section */}
+        <header className="flex flex-wrap items-center justify-between gap-y-4 pb-4 border-b border-gray-300 dark:border-gray-700">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Manage all your documents in one place.</h1>
+            
           </div>
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-3">
             <AddDocumentModal>
               <Button
-                className="group flex flex-1 items-center justify-start gap-x-1 whitespace-nowrap px-1 text-left sm:gap-x-3 sm:px-3"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
                 title="Add New Document"
               >
-                <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                <span className="text-xs sm:text-base">Add New Document</span>
+                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                <span>Add New Document</span>
               </Button>
             </AddDocumentModal>
             <AddFolderModal>
               <Button
                 size="icon"
                 variant="outline"
-                className="border-gray-500 bg-gray-50 hover:bg-gray-200 dark:bg-black hover:dark:bg-muted"
+                className="border-gray-400 bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md"
               >
-                <FolderPlusIcon
-                  className="h-5 w-5 shrink-0"
-                  aria-hidden="true"
-                />
+                <FolderPlusIcon className="h-5 w-5 text-gray-700 dark:text-gray-300" aria-hidden="true" />
               </Button>
             </AddFolderModal>
           </div>
-        </section>
+        </header>
 
-        <div className="mb-2 flex justify-end gap-x-2">
-          <div className="relative w-full sm:max-w-xs">
-            <SearchBoxPersisted loading={isValidating} inputClassName="h-10" />
+        {/* Filters Section */}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-y-4">
+          <div className="w-full sm:max-w-xs">
+            <SearchBoxPersisted
+              loading={isValidating}
+              inputClassName="h-10 border-gray-300 dark:border-gray-600 rounded-md"
+            />
           </div>
           <SortButton />
         </div>
 
-        <section id="documents-header-count" />
+        {/* Separator */}
+        <Separator className="my-6 bg-gray-300 dark:bg-gray-700" />
 
-        <Separator className="mb-5 bg-gray-200 dark:bg-gray-800" />
-
-        <DocumentsList
-          documents={documents}
-          folders={isFiltered ? [] : folders}
-          teamInfo={teamInfo}
-        />
+        {/* Documents List Section */}
+        <section>
+          <DocumentsList
+            documents={documents}
+            folders={isFiltered ? [] : folders}
+            teamInfo={teamInfo}
+          />
+        </section>
       </div>
     </AppLayout>
   );

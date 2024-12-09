@@ -24,13 +24,13 @@ const Onboarding3Email = () => {
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">Doctrack</span>
             </Text>
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
               Virtual Data Rooms
             </Text>
             <Text className="text-sm">Unlimited branded data rooms!</Text>
-            <Text className="text-sm">With Papermark Data Rooms you can:</Text>
+            <Text className="text-sm">With Doctrack Data Rooms you can:</Text>
             <Text className="text-sm">
               <ul className="list-inside list-disc text-sm">
                 <li>Share data rooms with one link</li>
@@ -45,7 +45,7 @@ const Onboarding3Email = () => {
                 <li>Build self-hosted expereince</li>
               </ul>
               <Text className="text-sm">
-                All about Papermark{" "}
+                All about Doctrack{" "}
                 <a
                   href="https://www.papermark.io/data-room"
                   className="text-blue-500 underline"
@@ -66,7 +66,7 @@ const Onboarding3Email = () => {
               </Button>
             </Section>
             <Text className="text-sm">
-              If you want to self-host Papermark, and build fully customizable
+              If you want to self-host Doctrack, and build fully customizable
               experience{" "}
               <a
                 href="https://cal.com/marcseitz/papermark"
@@ -85,7 +85,7 @@ const Onboarding3Email = () => {
                   className="text-gray-400 no-underline visited:text-gray-400 hover:text-gray-400"
                   target="_blank"
                 >
-                  papermark.io
+                  doctrack.com
                 </a>
               </Text>
               <Text className="text-xs">

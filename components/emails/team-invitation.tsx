@@ -27,22 +27,22 @@ export default function TeamInvitation({
   return (
     <Html>
       <Head />
-      <Preview>Join the team on Papermark</Preview>
+      <Preview>Join the team on Doctrack</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">Doctrack</span>
             </Text>
             <Text className="font-seminbold mx-0 mb-8 mt-4 p-0 text-center text-xl">
-              {`Join ${teamName} on Papermark`}
+              {`Join ${teamName} on Doctrack`}
             </Text>
             <Text className="text-sm leading-6 text-black">Hey!</Text>
             <Text className="text-sm leading-6 text-black">
               <span className="font-semibold">{senderName}</span> ({senderEmail}
               ) has invited you to the{" "}
               <span className="font-semibold">{teamName}</span> team on{" "}
-              <span className="font-semibold">Papermark</span>.
+              <span className="font-semibold">Doctrack</span>.
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
@@ -57,7 +57,7 @@ export default function TeamInvitation({
               or copy and paste this URL into your browser: <br />
               {`${url}`}
             </Text>
-            <Text className="text-sm text-gray-400">Marc from Papermark</Text>
+            <Text className="text-sm text-gray-400">Marc from Doctrack</Text>
             <Hr />
             <Section className="mt-8 text-gray-400">
               <Text className="text-xs">
@@ -67,7 +67,7 @@ export default function TeamInvitation({
                   className="text-gray-400 no-underline visited:text-gray-400 hover:text-gray-400"
                   target="_blank"
                 >
-                  papermark.io
+                  doctrack.com
                 </a>
               </Text>
               <Text className="text-xs">

@@ -58,10 +58,17 @@ export function AddDocumentModal({
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [notionLink, setNotionLink] = useState<string | null>(null);
   const teamInfo = useTeam();
-  const { canAddDocuments } = useLimits();
-  const { plan, trial } = usePlan();
-  const isFreePlan = plan === "free";
-  const isTrial = !!trial;
+
+  // const { canAddDocuments } = useLimits();
+  // const { plan, trial } = usePlan();
+  // const isFreePlan = plan === "free";
+  // const isTrial = !!trial;
+   // Bypass restrictions by setting these to true/non-free values
+   const canAddDocuments = true; // Always allow document additions
+   const plan = "business"; // Set to higher tier plan
+   const trial = true; // Enable trial features
+   const isFreePlan = false; // Disable free plan restrictions
+   const isTrial = true; // Enable trial features
 
   const teamId = teamInfo?.currentTeam?.id as string;
 
@@ -385,23 +392,27 @@ export function AddDocumentModal({
     setAddDocumentModalOpen && setAddDocumentModalOpen(!isOpen);
   };
 
-  if (!canAddDocuments && children) {
-    if (newVersion) {
-      return (
-        <UpgradePlanModal
-          clickedPlan="Pro"
-          trigger={"limit_upload_document_version"}
-        >
-          {children}
-        </UpgradePlanModal>
-      );
-    }
-    return (
-      <UpgradePlanModal clickedPlan="Pro" trigger={"limit_upload_documents"}>
-        <Button>Upgrade to Add Documents</Button>
-      </UpgradePlanModal>
-    );
+   // Remove or modify the restrictions check
+   if (!canAddDocuments && children) {
+    return children; // Just render children instead of upgrade modal
   }
+  // if (!canAddDocuments && children) {
+  //   if (newVersion) {
+  //     return (
+  //       <UpgradePlanModal
+  //         clickedPlan="Pro"
+  //         trigger={"limit_upload_document_version"}
+  //       >
+  //         {children}
+  //       </UpgradePlanModal>
+  //     );
+  //   }
+  //   return (
+  //     <UpgradePlanModal clickedPlan="Pro" trigger={"limit_upload_documents"}>
+  //       <Button>Upgrade to Add Documents</Button>
+  //     </UpgradePlanModal>
+  //   );
+  // }
 
   return (
     <Dialog open={isOpen} onOpenChange={clearModelStates}>

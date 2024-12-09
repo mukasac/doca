@@ -139,20 +139,11 @@ export default function Branding() {
           <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
             <div className="space-y-1">
               <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-                Document Branding
+              How to customize document branding?
+                <a href="https://www.papermark.io/help/article/document-branding">Click here</a>
               </h3>
-              <p className="flex flex-row items-center gap-2 text-sm text-muted-foreground">
-                Customize how your brand appears globally across Papermark
-                documents your visitors see.
-                <BadgeTooltip
-                  linkText="Click here"
-                  content="How to customize document branding?"
-                  key="branding"
-                  link="https://www.papermark.io/help/article/document-branding"
-                >
-                  <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
-                </BadgeTooltip>
-              </p>
+              
+              
             </div>
           </div>
           <div>
@@ -332,10 +323,12 @@ export default function Branding() {
                         clickedPlan="Pro"
                         trigger={"branding_page"}
                       >
-                        <Button>Upgrade to Save Branding</Button>
+                        <Button className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600">Upgrade to Save Branding</Button>
                       </UpgradePlanModal>
                     ) : (
-                      <Button onClick={saveBranding} loading={isLoading}>
+                      <Button 
+                      className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+                      onClick={saveBranding} loading={isLoading}>
                         Save changes
                       </Button>
                     )}
@@ -344,6 +337,7 @@ export default function Branding() {
                       variant="link"
                       onClick={handleDelete}
                       disabled={!brand}
+                      className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
                     >
                       Reset branding
                     </Button>
@@ -396,7 +390,7 @@ export default function Branding() {
                                 </svg>
                               </div>
                               <span className="whitespace-normal text-xs text-muted-foreground">
-                                papermark.io/view/...
+                                doctrack.com/view/...
                               </span>
                             </div>
                           </div>
@@ -470,7 +464,7 @@ export default function Branding() {
                                 </svg>
                               </div>
                               <span className="whitespace-normal text-xs text-muted-foreground">
-                                papermark.io/view/...
+                                doctrack.com/view/...
                               </span>
                             </div>
                           </div>
