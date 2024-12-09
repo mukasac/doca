@@ -203,26 +203,28 @@ export default function Billing() {
 
   return (
     <AppLayout>
-      <main className="relative mx-2 mb-10 mt-4 space-y-8 overflow-hidden px-1 sm:mx-3 md:mx-5 md:mt-5 lg:mx-7 lg:mt-8 xl:mx-10">
+      <main className="relative mx-2 mb-10 mt-4 
+       space-y-8 overflow-hidden px-1 sm:mx-3 md:mx-5 md:mt-5 lg:mx-7 lg:mt-8 xl:mx-10
+      ">
         <SettingsHeader />
-        <div>
+        <div >
           <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
             <div className="space-y-1">
               <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-                Team Members
+              Manage team members
               </h3>
-              <p className="text-sm text-muted-foreground">
+              {/* <p className="text-sm text-muted-foreground">
                 Manage your team members
-              </p>
+              </p> */}
             </div>
           </div>
           <div>
-            <div className="flex items-center justify-between rounded-lg border border-border bg-secondary p-4 sm:p-10 gap-x-1">
+            <div className="flex items-center justify-between">
               <div className="flex flex-col space-y-1 sm:space-y-3">
-                <h2 className="text-xl font-medium">People</h2>
-                <p className="text-sm text-secondary-foreground">
+                <h2 className="text-xl font-medium">Teammates that have access to this project.</h2>
+                {/* <p className="text-sm text-secondary-foreground">
                   Teammates that have access to this project.
-                </p>
+                </p> */}
               </div>
               {userPlan !== "free" &&
               (limits === null || (limits && limits.users >= numUsers)) ? (
@@ -237,7 +239,7 @@ export default function Billing() {
                   clickedPlan={"Pro"}
                   trigger={"invite_team_members"}
                 >
-                  <Button  className="text-xs sm:text-sm whitespace-nowrap px-1 sm:px-4">Upgrade to invite members</Button>
+                  <Button  className=" bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-xs sm:text-sm whitespace-nowrap px-1 sm:px-4">Upgrade to invite members</Button>
                 </UpgradePlanModal>
               )}
             </div>
@@ -306,7 +308,7 @@ export default function Billing() {
                             onClick={() =>
                               removeTeammate(member.teamId, member.userId)
                             }
-                            className="text-red-500 hover:cursor-pointer focus:bg-destructive focus:text-destructive-foreground"
+                            className=" hover:cursor-pointer focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground"
                           >
                             Leave team
                           </DropdownMenuItem>
@@ -324,7 +326,7 @@ export default function Billing() {
                                     : "MEMBER",
                                 )
                               }
-                              className="text-red-500 hover:cursor-pointer focus:bg-destructive focus:text-destructive-foreground"
+                              className="hover:cursor-pointer focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground"
                             >
                               Change role to{" "}
                               {member.role === "MEMBER" ? "MANAGER" : "MEMBER"}
@@ -333,7 +335,7 @@ export default function Billing() {
                               onClick={() =>
                                 removeTeammate(member.teamId, member.userId)
                               }
-                              className="text-red-500 hover:cursor-pointer focus:bg-destructive focus:text-destructive-foreground"
+                              className=" hover:cursor-pointer focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground"
                             >
                               Remove teammate
                             </DropdownMenuItem>
@@ -341,7 +343,7 @@ export default function Billing() {
                         ) : (
                           <DropdownMenuItem
                             disabled
-                            className="text-red-500 focus:bg-destructive focus:text-destructive-foreground"
+                            className=" focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600  focus:text-destructive-foreground"
                           >
                             Remove teammate
                           </DropdownMenuItem>
@@ -391,13 +393,13 @@ export default function Billing() {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                           onClick={() => resendInvitation(invitation)}
-                          className="text-red-500 hover:cursor-pointer focus:bg-destructive focus:text-destructive-foreground"
+                          className=" hover:cursor-pointer focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground"
                         >
                           Resend
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => revokeInvitation(invitation)}
-                          className="text-red-500 hover:cursor-pointer focus:bg-destructive focus:text-destructive-foreground"
+                          className=" hover:cursor-pointer focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground"
                         >
                           Revoke invitation
                         </DropdownMenuItem>

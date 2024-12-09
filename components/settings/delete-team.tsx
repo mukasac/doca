@@ -14,9 +14,9 @@ export default function DeleteTeam() {
   const { setShowDeleteTeamModal, DeleteTeamModal } = useDeleteTeamModal();
 
   return (
-    <div className="rounded-lg">
+    <div className="">
       <DeleteTeamModal />
-      <Card className="border-destructive bg-transparent">
+      
         <CardHeader>
           <CardTitle>Delete Team</CardTitle>
           <CardDescription>
@@ -27,17 +27,18 @@ export default function DeleteTeam() {
           </CardDescription>
         </CardHeader>
         <CardContent></CardContent>
-        <CardFooter className="flex items-center justify-end rounded-b-lg border-t px-6 py-3">
+        <CardFooter className="flex items-center justify-end px-6 py-3">
           <div className="shrink-0">
             <Button
               onClick={() => setShowDeleteTeamModal(true)}
-              variant="destructive"
+              // variant="destructive"
+              className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 "
             >
               Delete Team
             </Button>
           </div>
         </CardFooter>
-      </Card>
+      
     </div>
   );
 }

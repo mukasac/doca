@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { TeamContextType, useTeam } from "@/context/team-context";
 import { Check, Loader, PlusIcon } from "lucide-react";
-import { ChevronsUpDown as ChevronUpDownIcon } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -28,59 +28,58 @@ const SelectTeam = ({ teams, currentTeam, isLoading }: TeamContextType) => {
   return (
     <>
       {isLoading ? (
-        <div className="flex items-center gap-2 text-sm">
-          <Loader className="h-5 w-5 animate-spin" /> Loading teams...
+        <div className="flex items-center gap-3 text-base font-medium text-gray-600 dark:text-gray-300">
+          <Loader className="h-6 w-6 animate-spin text-blue-500" />
+          Loading teams...
         </div>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="flex w-full cursor-pointer items-center justify-between rounded-md border px-[10px] py-2 opacity-90 duration-200 hover:bg-muted">
-              <div className="flex items-center space-x-2">
-                <Avatar className="h-[25px] w-[25px] text-[10px]">
+            <div className="flex w-full cursor-pointer items-center justify-between rounded-lg border bg-white px-4 py-3 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex items-center space-x-3">
+                <Avatar className="h-8 w-8 text-sm">
                   <AvatarFallback>
                     {currentTeam?.name?.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
 
-                <p className="text-sm">{currentTeam?.name}</p>
+                <p className="text-base font-semibold text-gray-800 dark:text-gray-100">
+                  {currentTeam?.name || "Select a Team"}
+                </p>
               </div>
-              <ChevronUpDownIcon className="h-4 w-4" />
+              <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[250px] px-0 pb-1.5 pt-2 sm:w-[270px] lg:w-[240px] xl:w-[270px]">
+          <DropdownMenuContent className="w-72 rounded-lg border bg-white p-2 shadow-lg dark:border-gray-700 dark:bg-gray-800">
             {teams.map((team) => (
               <div
                 key={team.id}
                 onClick={() => switchTeam(team)}
                 className={cn(
-                  `flex w-full cursor-pointer items-center justify-between truncate px-3 py-2 text-sm font-normal transition-all duration-75 hover:bg-gray-200 hover:dark:bg-gray-800`,
-                  team.id === currentTeam?.id && "font-medium",
+                  `flex items-center justify-between rounded-md px-4 py-2 text-base transition-all duration-150 hover:bg-blue-100 dark:hover:bg-blue-900`,
+                  team.id === currentTeam?.id && "bg-blue-50 font-semibold dark:bg-blue-800"
                 )}
               >
-                <div className="flex items-center space-x-2">
-                  <Avatar className="h-7 w-7 text-xs">
+                <div className="flex items-center space-x-3">
+                  <Avatar className="h-8 w-8 text-sm">
                     <AvatarFallback>
                       {team.name?.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-
-                  <p>{team.name}</p>
+                  <p className="text-gray-700 dark:text-gray-200">{team.name}</p>
                 </div>
 
                 {team.id === currentTeam?.id && (
-                  <Check
-                    className="h-4 w-4 text-black dark:text-white"
-                    aria-hidden="true"
-                  />
+                  <Check className="h-5 w-5 text-blue-500 dark:text-blue-300" />
                 )}
               </div>
             ))}
 
             <Link
               href="/settings/people"
-              className="mx-auto mb-1 mt-3 flex w-[92%] items-center rounded-sm border px-[10px] py-2 text-sm duration-100 hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-white transition-all duration-150 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
             >
-              <PlusIcon className="mr-2 h-4 w-4" />
+              <PlusIcon className="h-5 w-5" />
               Invite Members
             </Link>
           </DropdownMenuContent>

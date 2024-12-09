@@ -42,20 +42,13 @@ export default function Domains() {
         <div>
           <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
             <div className="space-y-1">
-              <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-                Domains
-              </h3>
-              <p className="flx-row flex items-center gap-2 text-sm text-muted-foreground">
-                Manage your custom domain for document sharing
-                <BadgeTooltip
-                  content="How to connect a custom domain to your link?"
-                  key="verified"
-                  linkText="Click here"
-                  link="https://www.papermark.io/help/article/how-to-add-custom-domain-to-link"
-                >
-                  <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
-                </BadgeTooltip>
+              {/* <h3 className="text-2xl font-semibold tracking-tight text-foreground"> */}
+
+              <p className="text-2xl font-semibold tracking-tight text-foreground flx-row flex items-center gap-2">
+              How to connect a custom domain to your link?
+                <a href="https://www.papermark.io/help/article/how-to-add-custom-domain-to-link">CLick here</a>
               </p>
+            
             </div>
             <ul className="flex items-center justify-between gap-4">
               <AddDomainModal

@@ -51,9 +51,9 @@ export default function General() {
         <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
           <div className="space-y-1">
             <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-              General
+              Manage your team.
             </h3>
-            <p className="text-sm text-muted-foreground">Manage your team</p>
+            {/* <p className="text-sm text-muted-foreground">Manage your team</p> */}
           </div>
         </div>
         <div className="space-y-6">
@@ -89,7 +89,7 @@ export default function General() {
             }
           />
 
-          <div className="rounded-lg border border-muted p-10">
+          <div className="">
             <div className="space-y-6">
               <div className="space-y-3">
                 <h2 className="text-xl font-medium">Register a passkey</h2>
@@ -100,8 +100,9 @@ export default function General() {
               </div>
               <Button
                 onClick={() => registerPasskey()}
-                className="flex items-center justify-center space-x-2"
+                className="flex items-center justify-center space-x-2 bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 "
               >
+                
                 <Passkey className="h-4 w-4" />
                 <span>Register a new passkey</span>
               </Button>
