@@ -125,5 +125,3 @@ pipenv update tinybird-cli
 ```
 
 
-
-
