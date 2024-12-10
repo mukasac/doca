@@ -31,7 +31,7 @@ export default function Sidebar() {
       <nav>
         <SidebarComponent className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex" />
         <div className="lg:pl-72"></div>
-        <div className="sticky top-0 z-40 mb-1 flex h-14 shrink-0 items-center border-b border-gray-50/90 bg-gray-50 px-6 dark:border-none dark:border-black/10 dark:bg-black/95 sm:px-12 lg:hidden">
+        <div className="sticky top-0 z-40 mb-1 flex h-14 shrink-0 items-center border-b border-gray-50/90 bg-gray-600 px-6 dark:border-none dark:border-black/10 dark:bg-black/95 sm:px-12 lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <button className="mt-1 p-0.5 text-muted-foreground lg:hidden">
@@ -98,7 +98,6 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
       icon: ServerIcon,
       current: router.pathname.includes("datarooms"),
       active: false,
-      // Modified to always enable datarooms
       disabled: false,
     },
     {
@@ -107,7 +106,6 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
       icon: ContactIcon,
       current: router.pathname.includes("visitors"),
       active: false,
-      // Modified to always enable visitors
       disabled: false,
     },
     {
@@ -138,15 +136,15 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
     <div>
       <aside
         className={cn(
-          "h-dvh w-full flex-shrink-0 flex-col justify-between gap-y-6 bg-gray-50 px-4 pt-4 dark:bg-black lg:w-72 lg:px-6 lg:pt-6",
+          "h-dvh w-full flex-shrink-0 flex-col justify-between gap-y-6 bg-gradient-to-t from-gray-800 via-gray-900 to-black px-4 pt-4 text-white lg:w-72 lg:px-6 lg:pt-6 shadow-lg",
           className,
         )}
       >
         <div className="flex h-16 shrink-0 items-center space-x-3">
-          <p className="flex items-center text-2xl font-bold tracking-tighter text-black dark:text-white">
+          <p className="flex items-center text-2xl font-bold tracking-tighter">
             <Link href="/documents">DocTrack </Link>
             {userPlan && userPlan != "free" ? (
-              <span className="ml-4 rounded-full bg-background px-2.5 py-1 text-xs tracking-normal text-foreground ring-1 ring-gray-800">
+              <span className="ml-4 rounded-full bg-primary px-2.5 py-1 text-xs tracking-normal ring-1 ring-gray-800">
                 {userPlan.charAt(0).toUpperCase() + userPlan.slice(1)}
               </span>
             ) : null}
@@ -177,8 +175,8 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
                         disabled={item.disabled}
                         className={cn(
                           item.current
-                            ? "bg-gray-200 font-semibold text-foreground dark:bg-secondary"
-                            : "duration-200 hover:bg-gray-200 hover:dark:bg-muted",
+                            ? "bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 font-semibold text-white dark:bg-indigo-800"
+                            : "duration-200 hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 hover:dark:bg-muted",
                           "group flex w-full items-center gap-x-2 rounded-md px-3 py-2 text-sm leading-6 disabled:cursor-default disabled:text-muted-foreground disabled:hover:bg-transparent",
                         )}
                       >
@@ -192,7 +190,6 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
                     </div>
                   );
                 }
-                // Modified to directly render buttons without upgrade modal
                 return (
                   <button
                     key={item.name}
@@ -200,8 +197,8 @@ export const SidebarComponent = ({ className }: { className?: string }) => {
                     disabled={item.disabled}
                     className={cn(
                       item.current
-                        ? "bg-gray-200 font-semibold text-foreground dark:bg-secondary"
-                        : "duration-200 hover:bg-gray-200 hover:dark:bg-muted",
+                        ? "bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 font-semibold text-white dark:bg-indigo-800"
+                        : "duration-200 hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 hover:dark:bg-muted",
                       "group flex w-full items-center gap-x-2 rounded-md px-3 py-2 text-sm leading-6 disabled:cursor-default disabled:text-muted-foreground disabled:hover:bg-transparent",
                     )}
                   >
@@ -266,13 +263,13 @@ function UsageProgress(data: {
     <div className="p-2">
       <div className="mt-1 flex flex-col space-y-1">
         {usage !== undefined && usageLimit !== undefined ? (
-          <p className="text-xs text-foreground">
+          <p className="text-xs text-white">
             <span>{nFormatter(usage)}</span> / {nFormatter(usageLimit)} {unit}
           </p>
         ) : (
           <div className="h-5 w-32 animate-pulse rounded-md bg-muted" />
         )}
-        <Progress value={usagePercentage} className="h-1 bg-muted" max={100} />
+        <Progress value={usagePercentage} className="h-1 bg-white" max={100} />
       </div>
     </div>
   );

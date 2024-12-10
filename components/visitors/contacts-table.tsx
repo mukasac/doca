@@ -169,57 +169,11 @@ export function ContactsTable({
       setSorting((old) => {
         const newSorting =
           typeof updater === "function" ? updater(old) : updater;
-        if (newSorting.length > 0) {
-          const [{ id, desc }] = newSorting;
-          const prevSorting = old.find((s) => s.id === id);
-          if (prevSorting) {
-            if (prevSorting.desc && !desc) {
-              // If it was descending and now ascending, reset
-              return [];
-            }
-          }
-        }
         return newSorting;
       });
     },
-    state: {
-      sorting,
-    },
+    state: { sorting },
   });
-
-  if (!viewers) {
-    return (
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Last Viewed</TableHead>
-              <TableHead>Total Visits</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {[...Array(5)].map((_, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <div className="flex items-center space-x-3">
-                    <Skeleton className="h-10 w-10 rounded-full" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-4 w-[100px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-4 w-[50px]" />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    );
-  }
 
   const handleRowClick = (id: string) => {
     router.push(`/visitors/${id}`);
@@ -246,32 +200,27 @@ export function ContactsTable({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {data.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   onClick={() => handleRowClick(row.original.id)}
                   className="cursor-pointer"
                 >
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    );
-                  })}
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No visitors yet.
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No visitors found.
                 </TableCell>
               </TableRow>
             )}
@@ -282,3 +231,4 @@ export function ContactsTable({
     </div>
   );
 }
+

@@ -123,7 +123,6 @@ export default async function handle(
         },
         select: {
           id: true,
-          plan: true,
         },
       });
 
@@ -131,54 +130,10 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      if (team.plan === "free" || team.plan === "pro") {
-        return res.status(403).json({
-          message: "Upgrade your plan to use datarooms.",
-        });
-      }
-
       try {
         const folderContents = await fetchFolderContents(folderId);
         await createDataroomStructure(dataroomId, folderContents);
 
-        // const folderWithDocuments = await prisma.folder.findUnique({
-        //   where: {
-        //     id: folderId,
-        //   },
-        //   include: {
-        //     childFolders: true,
-        //     documents: { select: { id: true } },
-        //   },
-        // });
-
-        // if (!folderWithDocuments) {
-        //   return res.status(404).json({
-        //     message: "Folder not found.",
-        //   });
-        // }
-
-        // const parentPath = "/" + slugify(folderWithDocuments.name);
-        // await prisma.dataroomFolder.create({
-        //   data: {
-        //     dataroomId: dataroomId,
-        //     path: parentPath,
-        //     name: folderWithDocuments.name,
-        //     documents: {
-        //       create: folderWithDocuments.documents.map((document) => ({
-        //         documentId: document.id,
-        //         dataroomId: dataroomId,
-        //       })),
-        //     },
-        //     childFolders: {
-        //       create: folderWithDocuments.childFolders.map((childFolder) => ({
-        //         name: childFolder.name,
-        //         dataroomId: dataroomId,
-        //         path: parentPath + "/" + slugify(childFolder.name),
-        //         documents:...
-        //       })),
-        //     },
-        //   },
-        // });
       } catch (error) {
         return res.status(500).json({
           message: "Document already exists in dataroom!",

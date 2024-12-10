@@ -1,8 +1,6 @@
 import { useState } from "react";
-
 import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,41 +13,32 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { useAnalytics } from "@/lib/analytics";
-import { usePlan } from "@/lib/swr/use-billing";
-import useLimits from "@/lib/swr/use-limits";
-
-import { UpgradePlanModal } from "../billing/upgrade-plan-modal";
 
 export function AddDomainModal({
   open,
   setOpen,
   onAddition,
-  linkType,
   children,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onAddition?: (newDomain: string) => void;
-  linkType?: "DOCUMENT_LINK" | "DATAROOM_LINK";
   children?: React.ReactNode;
 }) {
   const [domain, setDomain] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const teamInfo = useTeam();
-  const { plan } = usePlan();
-  const { limits } = useLimits();
   const analytics = useAnalytics();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (domain == "") return;
+    if (domain === "") return;
 
-    // Add validation for papermark
+    // Add validation for domain (e.g., disallow "papermark" in domain name)
     if (domain.toLowerCase().includes("papermark")) {
       toast.error("Domain cannot contain 'papermark'");
       return;
@@ -66,7 +55,7 @@ export function AddDomainModal({
         body: JSON.stringify({
           domain: domain,
         }),
-      },
+      }
     );
 
     if (!response.ok) {
@@ -78,52 +67,14 @@ export function AddDomainModal({
     }
 
     const newDomain = await response.json();
-
     analytics.capture("Domain Added", { slug: domain });
     toast.success("Domain added successfully! 🎉");
 
-    // Update local data with the new link
     onAddition && onAddition(newDomain);
-
     setOpen(false);
-
     setLoading(false);
-
     !onAddition && window.open("/settings/domains", "_blank");
   };
-
-  // If the team is
-  // - on a free plan
-  // - on pro plan and has custom domain on pro plan disabled
-  // - on business plan and has custom domain in dataroom disabled
-  // => then show the upgrade modal
-  if (
-    plan === "free" ||
-    (plan === "pro" && !limits?.customDomainOnPro) ||
-    (linkType === "DATAROOM_LINK" &&
-      plan === "business" &&
-      !limits?.customDomainInDataroom)
-  ) {
-    if (children) {
-      return (
-        <UpgradePlanModal
-          clickedPlan={linkType === "DATAROOM_LINK" ? "Data Rooms" : "Business"}
-          trigger={"add_domain_overview"}
-        >
-          <Button className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-white">Upgrade to Add Domain</Button>
-        </UpgradePlanModal>
-      );
-    } else {
-      return (
-        <UpgradePlanModal
-          clickedPlan={linkType === "DATAROOM_LINK" ? "Data Rooms" : "Business"}
-          open={open}
-          setOpen={setOpen}
-          trigger={"add_domain_link_sheet"}
-        />
-      );
-    }
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -146,11 +97,7 @@ export function AddDomainModal({
             onChange={(e) => setDomain(e.target.value)}
           />
           <DialogFooter>
-            <Button type="submit"
-                                        className=" focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600  focus:text-destructive-foreground"
-
-            //  className="h-9 w-full"
-             >
+            <Button type="submit" className=" bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 focus:text-destructive-foreground">
               Add domain
             </Button>
           </DialogFooter>

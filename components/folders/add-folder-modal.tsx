@@ -106,17 +106,7 @@ export function AddFolderModal({
     }
   };
 
-  // If the team is on a free plan, show the upgrade modal
-  if (plan === "free" && (!isDataroom || !trial)) {
-    if (children) {
-      return (
-        <UpgradePlanModal clickedPlan="Pro" trigger={"add_folder_button"}>
-          {children}
-        </UpgradePlanModal>
-      );
-    }
-  }
-
+  // Removed restriction check for free plan
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -136,7 +126,7 @@ export function AddFolderModal({
             onChange={(e) => setFolderName(e.target.value)}
           />
           <DialogFooter>
-            <Button type="submit" className="h-9 w-full">
+            <Button type="submit" className="h-9 w-full bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600">
               Add new folder
             </Button>
           </DialogFooter>

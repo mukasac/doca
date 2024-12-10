@@ -220,13 +220,17 @@ export default function FolderCard({
                   e.stopPropagation();
                   setOpenFolder(true);
                 }}
+                className="cursor-pointer hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-black"
+
               >
-                <FolderPenIcon className="mr-2 h-4 w-4" />
+                <FolderPenIcon className="mr-2 h-4 w-4 " />
                 Rename
               </DropdownMenuItem>
               {!isDataroom ? (
                 <DropdownMenuItem
                   onClick={(e) => handleCreateDataroom(e, folder.id)}
+                  className="cursor-pointer hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-black"
+
                 >
                   <PackagePlusIcon className="mr-2 h-4 w-4" />
                   Create dataroom from folder
@@ -238,6 +242,8 @@ export default function FolderCard({
                   e.stopPropagation();
                   setAddDataroomOpen(true);
                 }}
+                className=" cursor-pointer hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600 text-black"
+
               >
                 <BetweenHorizontalStartIcon className="mr-2 h-4 w-4" />
                 {isDataroom
@@ -252,7 +258,7 @@ export default function FolderCard({
                   event.stopPropagation();
                   setDeleteModalOpen(true);
                 }}
-                className="text-destructive duration-200 focus:bg-destructive focus:text-destructive-foreground"
+                className="cursor-pointer text-destructive duration-200 focus:bg-destructive focus:text-destructive-foreground"
               >
                 <TrashIcon className="mr-2 h-4 w-4" />{" "}
                 {isDataroom ? "Remove Folder" : "Delete Folder"}

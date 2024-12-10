@@ -24,22 +24,29 @@ export default async function handle(
     const { teamId, id: docId } = req.query as { teamId: string; id: string };
 
     const userId = (session.user as CustomUser).id;
+    
 
     try {
+      // const { document } = await getTeamWithUsersAndDocument({
+      //   teamId,
+      //   userId,
+      //   docId,
+      //   options: {
+      //     include: {
+            
+      //       versions: {
+      //         where: { isPrimary: true },
+      //         orderBy: { createdAt: "desc" },
+      //         take: 1,
+      //       },
+      //     },
+      //   },
+      // });
+      // Remove role check in GET request
       const { document } = await getTeamWithUsersAndDocument({
         teamId,
         userId,
-        docId,
-        options: {
-          include: {
-            // Get the latest primary version of the document
-            versions: {
-              where: { isPrimary: true },
-              orderBy: { createdAt: "desc" },
-              take: 1,
-            },
-          },
-        },
+        docId
       });
 
       if (!document || !document.versions || document.versions.length === 0) {
@@ -136,14 +143,14 @@ export default async function handle(
         where: {
           id: docId,
           teamId: teamId,
-          team: {
-            users: {
-              some: {
-                // role: { in: ["ADMIN", "MANAGER"] },
-                userId: userId,
-              },
-            },
-          },
+          // team: {
+          //   users: {
+          //     some: {
+                
+          //       userId: userId,
+          //     },
+          //   },
+          // },
         },
         include: {
           versions: {
@@ -185,4 +192,5 @@ export default async function handle(
     res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+  
 }

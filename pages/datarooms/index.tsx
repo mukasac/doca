@@ -20,87 +20,62 @@ export default function DataroomsPage() {
   const { datarooms } = useDatarooms();
   const router = useRouter();
 
-  // Keep these but don't use them for restrictions
-  const { plan, trial } = usePlan();
-  const { limits } = useLimits();
-  
-  // Set these to values that allow access
-  const isDatarooms = true;  // Override to allow dataroom access
-  const isBusiness = true;   // Override to allow business features
-  const canCreateUnlimitedDatarooms = true;  // Allow unlimited dataroom creation
+  // Access overrides
+  const isDatarooms = true;
+  const isBusiness = true;
+  const canCreateUnlimitedDatarooms = true;
 
   return (
     <AppLayout>
-      <main className="p-4 sm:m-4 sm:px-4 sm:py-4">
-        <section className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
-          <div className="space-y-1">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-              Datarooms
+      <main className="p-6 space-y-8 sm:p-8 bg-gray-50 dark:bg-gray-900">
+        <section className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+              Dataroom Management
             </h2>
-            <p className="text-xs text-muted-foreground sm:text-sm">
-              Manage your datarooms
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Organize and manage your data rooms effectively.
             </p>
           </div>
-          <div className="flex items-center gap-x-1">
-            {/* Simplified button to always show Add Dataroom */}
-            <AddDataroomModal>
-              <Button
-                className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                title="Create New Document"
-              >
-                <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                <span>Create New Dataroom</span>
-              </Button>
-            </AddDataroomModal>
-          </div>
+          <AddDataroomModal>
+            <Button className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600  flex items-center gap-2 rounded-lg bg-primary text-white px-4 py-2 shadow-md hover:bg-primary-dark">
+              <PlusIcon className="h-5 w-5" />
+              Create New Dataroom
+            </Button>
+          </AddDataroomModal>
         </section>
 
-        <Separator className="mb-5 bg-gray-200 dark:bg-gray-800" />
+        <Separator className="border-gray-300 dark:border-gray-700" />
 
-        <div className="space-y-4">
-          <ul className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-2 xl:grid-cols-3">
-            {datarooms &&
-              datarooms.map((dataroom) => (
-                <Link key={dataroom.id} href={`/datarooms/${dataroom.id}`}>
-                  <Card className="group relative overflow-hidden duration-500 hover:border-primary/50">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="truncate">
-                          {dataroom.name}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <dl className="divide-y divide-gray-100 text-sm leading-6">
-                        <div className="flex justify-between gap-x-4 py-3">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Documents
-                          </dt>
-                          <dd className="flex items-start gap-x-2">
-                            <div className="font-medium text-gray-900 dark:text-gray-200">
-                              {dataroom._count.documents ?? 0}
-                            </div>
-                          </dd>
-                        </div>
-                        <div className="flex justify-between gap-x-4 py-3">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Views
-                          </dt>
-                          <dd className="flex items-start gap-x-2">
-                            <div className="font-medium text-gray-900 dark:text-gray-200">
-                              {dataroom._count.views ?? 0}
-                            </div>
-                          </dd>
-                        </div>
-                      </dl>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-          </ul>
-
-          {datarooms && datarooms.length === 0 && (
-            <div className="flex items-center justify-center">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {datarooms && datarooms.length > 0 ? (
+            datarooms.map((dataroom) => (
+              <Link key={dataroom.id} href={`/datarooms/${dataroom.id}`}>
+                <Card className="relative overflow-hidden rounded-lg border bg-white shadow hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg font-medium text-gray-900 dark:text-white">
+                      {dataroom.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                      <span>Documents:</span>
+                      <span className="font-bold text-gray-900 dark:text-gray-200">
+                        {dataroom._count.documents ?? 0}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                      <span>Views:</span>
+                      <span className="font-bold text-gray-900 dark:text-gray-200">
+                        {dataroom._count.views ?? 0}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))
+          ) : (
+            <div className="col-span-full flex justify-center items-center">
               <EmptyDataroom />
             </div>
           )}

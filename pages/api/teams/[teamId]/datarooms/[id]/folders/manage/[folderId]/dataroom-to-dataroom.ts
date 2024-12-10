@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import slugify from "@sindresorhus/slugify";
 import { getServerSession } from "next-auth/next";
-
 import { errorhandler } from "@/lib/errorHandler";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
@@ -126,18 +124,11 @@ export default async function handle(
         },
         select: {
           id: true,
-          plan: true,
         },
       });
 
       if (!team) {
         return res.status(401).end("Unauthorized");
-      }
-
-      if (team.plan === "free" || team.plan === "pro") {
-        return res.status(403).json({
-          message: "Upgrade your plan to use datarooms.",
-        });
       }
 
       try {

@@ -105,6 +105,7 @@ export default function SortButton() {
           <DropdownMenuItem
             onClick={() => setSortBy("name")}
             disabled={sortBy === "name"}
+            className="hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
           >
             <ArrowDownAZ className="mr-2 h-4 w-4" />
             Name
@@ -113,6 +114,8 @@ export default function SortButton() {
           <DropdownMenuItem
             onClick={() => setSortBy("createdAt")}
             disabled={sortBy === "createdAt"}
+            className="hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+
           >
             <CalendarArrowDownIcon className="mr-2 h-4 w-4" />
             Date Added
@@ -123,6 +126,8 @@ export default function SortButton() {
           <DropdownMenuItem
             onClick={() => setSortBy("lastViewed")}
             disabled={sortBy === "lastViewed"}
+            className="hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+
           >
             <ClockArrowDownIcon className="mr-2 h-4 w-4" />
             Recently Viewed
@@ -133,6 +138,8 @@ export default function SortButton() {
           <DropdownMenuItem
             onClick={() => setSortBy("views")}
             disabled={sortBy === "views"}
+            className="hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+
           >
             <Eye className="mr-2 h-4 w-4" />
             Number of Views
@@ -141,6 +148,8 @@ export default function SortButton() {
           <DropdownMenuItem
             onClick={() => setSortBy("links")}
             disabled={sortBy === "links"}
+            className="hover:bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+
           >
             <Link className="mr-2 h-4 w-4" />
             Number of Links
@@ -149,7 +158,9 @@ export default function SortButton() {
           {sortBy !== null && (
             <DropdownMenuItem
               onClick={resetSort}
-              className="text-destructive focus:bg-destructive/80"
+              className="
+              text-destructive focus:bg-destructive/80"
+
             >
               <XCircleIcon className="mr-2 h-4 w-4" />
               Reset Sort

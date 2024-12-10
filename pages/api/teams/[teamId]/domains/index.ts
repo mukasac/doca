@@ -1,128 +1,44 @@
+// api/teams/[teamId]/domains.ts
+
 import { NextApiRequest, NextApiResponse } from "next";
+import prisma from "@/lib/prisma"; // Correct path to prisma.ts
 
-import { getServerSession } from "next-auth/next";
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { method } = req;
+  const { teamId } = req.query; // Get teamId from query params
 
-import { addDomainToVercel, validDomainRegex } from "@/lib/domains";
-import { errorhandler } from "@/lib/errorHandler";
-import prisma from "@/lib/prisma";
-import { getTeamWithDomain } from "@/lib/team/helper";
-import { CustomUser } from "@/lib/types";
-import { log } from "@/lib/utils";
+  if (method === "POST") {
+    const { domain } = req.body; // Extract domain from request body
 
-import { authOptions } from "../../../auth/[...nextauth]";
-
-export default async function handle(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method === "GET") {
-    // GET /api/teams/:teamId/domains
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).end("Unauthorized");
+    // Validate that the domain is provided
+    if (!domain) {
+      return res.status(400).json({ message: "Domain is required" });
     }
 
-    const { teamId } = req.query as { teamId: string };
-
-    const userId = (session.user as CustomUser).id;
-
-    try {
-      const { team } = await getTeamWithDomain({
-        teamId,
-        userId,
-        options: {
-          select: {
-            slug: true,
-            verified: true,
-            isDefault: true,
-          },
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-      });
-
-      const domains = team.domains;
-      return res.status(200).json(domains);
-    } catch (error) {
-      errorhandler(error, res);
-    }
-  } else if (req.method === "POST") {
-    // POST /api/teams/:teamId/domains
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      res.status(401).end("Unauthorized");
-      return;
-    }
-
-    const userId = (session.user as CustomUser).id;
-    const { teamId } = req.query as { teamId: string };
-
-    if (!teamId) {
-      return res.status(401).json("Unauthorized");
+    // Example: Prevent domain from containing 'papermark'
+    if (domain.toLowerCase().includes("papermark")) {
+      return res.status(400).json({ message: "Domain cannot contain 'papermark'" });
     }
 
     try {
-      await getTeamWithDomain({
-        teamId,
-        userId,
-      });
-
-      // Assuming data is an object with `domain` properties
-      const { domain } = req.body;
-
-      // Sanitize domain by removing whitespace, protocol, and paths
-      const sanitizedDomain = domain
-        .trim()
-        .toLowerCase()
-        .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
-        .split("/")[0];
-
-      // Check if domain is valid
-      const validDomain = validDomainRegex.test(sanitizedDomain);
-      if (validDomain !== true) {
-        return res.status(422).json("Invalid domain");
-      }
-
-      // Check if domain contains papermark
-      if (sanitizedDomain.toLowerCase().includes("papermark")) {
-        return res
-          .status(400)
-          .json({ message: "Domain cannot contain 'papermark'" });
-      }
-
-      // Check if domain already exists
-      const existingDomain = await prisma.domain.findFirst({
-        where: {
-          slug: sanitizedDomain,
-        },
-      });
-
-      if (existingDomain) {
-        return res.status(400).json({ message: "Domain already exists" });
-      }
-
-      const response = await prisma.domain.create({
+      // Create the domain for the team in the database
+      const newDomain = await prisma.domain.create({
         data: {
-          slug: sanitizedDomain,
-          userId,
-          teamId,
+          domain,
+          team: {
+            connect: {
+              id: teamId, // Link the domain to the team
+            },
+          },
         },
       });
-      await addDomainToVercel(sanitizedDomain);
 
-      return res.status(201).json(response);
+      return res.status(200).json(newDomain); // Return newly created domain
     } catch (error) {
-      log({
-        message: `Failed to add domain. \n\n ${error} \n\n*Metadata*: \`{teamId: ${teamId}, userId: ${userId}}\``,
-        type: "error",
-        mention: true,
-      });
-      errorhandler(error, res);
+      console.error("Error adding domain:", error);
+      return res.status(500).json({ message: "Error adding domain" }); // Handle unexpected errors
     }
   } else {
-    // We only allow GET and POST requests
-    res.setHeader("Allow", ["GET", "POST"]);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).json({ message: "Method Not Allowed" }); // Only allow POST requests
   }
 }

@@ -116,7 +116,6 @@ export default async function handle(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    // POST /api/teams/:teamId/datarooms/create-from-folder
     const session = await getServerSession(req, res, authOptions);
     if (!session) {
       res.status(401).end("Unauthorized");
@@ -139,12 +138,6 @@ export default async function handle(
         },
         select: {
           id: true,
-          plan: true,
-          _count: {
-            select: {
-              datarooms: true,
-            },
-          },
         },
       });
 
@@ -152,33 +145,8 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      const limits = await getLimits({ teamId, userId });
-      const stripedTeamPlan = team.plan.replace("+old", "");
-
-      if (
-        !team.plan.includes("drtrial") &&
-        ["business", "datarooms"].includes(stripedTeamPlan) &&
-        limits &&
-        team._count.datarooms >= limits.datarooms
-      ) {
-        return res.status(403).json({
-          message:
-            "You've reached the limit of datarooms. Consider upgrading your plan.",
-        });
-      }
-
-      if (team.plan.includes("drtrial") && team._count.datarooms > 0) {
-        return res
-          .status(400)
-          .json({ message: "Trial data room already exists" });
-      }
-
-      if (["free", "pro"].includes(team.plan)) {
-        return res
-          .status(400)
-          .json({ message: "You need a Business plan to create a data room" });
-      }
-
+      // No plan or dataroom count restrictions here
+      
       // Fetch the folder structure
       const folderContents = await fetchFolderContents(folderId);
 
@@ -223,7 +191,6 @@ export default async function handle(
       res.status(500).json({ error: "Error creating dataroom" });
     }
   } else {
-    // We only allow POST requests
     res.setHeader("Allow", ["POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }

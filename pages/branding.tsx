@@ -317,31 +317,27 @@ export default function Branding() {
                       </div>
                     </div>
                   </CardContent>
+                 
                   <CardFooter className="border-t p-6">
-                    {plan === "free" ? (
-                      <UpgradePlanModal
-                        clickedPlan="Pro"
-                        trigger={"branding_page"}
-                      >
-                        <Button className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600">Upgrade to Save Branding</Button>
-                      </UpgradePlanModal>
-                    ) : (
-                      <Button 
-                      className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
-                      onClick={saveBranding} loading={isLoading}>
-                        Save changes
-                      </Button>
-                    )}
-                    {/* delete button */}
-                    <Button
-                      variant="link"
-                      onClick={handleDelete}
-                      disabled={!brand}
-                      className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
-                    >
-                      Reset branding
-                    </Button>
-                  </CardFooter>
+  {/* Always show the save button */}
+  <Button 
+    className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+    onClick={saveBranding} 
+    loading={isLoading}>
+    Save changes
+  </Button>
+
+  {/* Delete button */}
+  <Button
+    variant="link"
+    onClick={handleDelete}
+    disabled={!brand}
+    className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600"
+  >
+    Reset branding
+  </Button>
+</CardFooter>
+
                 </Card>
                 <Tabs defaultValue="document-view" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">

@@ -79,6 +79,35 @@ export function AddDocumentModal({
   /** current folder name */
   const currentFolderPath = router.query.name as string[] | undefined;
 
+   // Async function for uploading files
+   const uploadImage = async (file: File) => {
+    const response = await fetch("/api/teams/:teamId/documents/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: file.name, fileType: file.type }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get signed URL");
+    }
+
+    const { signedUrl } = await response.json();
+
+    // Use the signed URL to upload the file
+    const uploadResponse = await fetch(signedUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+      body: file,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error("Upload failed");
+    }
+
+    return signedUrl;
+  };
+
+
   const handleFileUpload = async (
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> => {
@@ -90,10 +119,10 @@ export function AddDocumentModal({
       return; // prevent form from submitting
     }
 
-    if (!canAddDocuments) {
-      toast.error("You have reached the maximum number of documents.");
-      return;
-    }
+    // if (!canAddDocuments) {
+    //   toast.error("You have reached the maximum number of documents.");
+    //   return;
+    // }
 
     try {
       setUploading(true);
