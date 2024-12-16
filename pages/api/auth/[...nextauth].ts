@@ -11,6 +11,9 @@ import { sendWelcomeEmail } from "@/lib/emails/send-welcome";
 import hanko from "@/lib/hanko";
 import prisma from "@/lib/prisma";
 import { CreateUserEmailProps, CustomUser } from "@/lib/types";
+import { Resend } from 'resend';
+
+
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -18,21 +21,32 @@ export const config = {
   maxDuration: 180,
 };
 
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export const authOptions: NextAuthOptions = {
   pages: {
     error: "/login",
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       allowDangerousEmailAccountLinking: true,
     }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    //   allowDangerousEmailAccountLinking: true,
+    // }),
     LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID as string,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string,
+      clientId: process.env.LINKEDIN_CLIENT_ID || "",
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
       authorization: {
-        params: { scope: "openid profile email" },
+        params: {
+          scope: "openid profile email r_emailaddress r_liteprofile",
+          response_type: "code",
+        },
       },
       issuer: "https://www.linkedin.com",
       jwks_endpoint: "https://www.linkedin.com/oauth/openid/jwks",
@@ -47,25 +61,91 @@ export const authOptions: NextAuthOptions = {
       },
       allowDangerousEmailAccountLinking: true,
     }),
+    // LinkedInProvider({
+    //   clientId: process.env.LINKEDIN_CLIENT_ID as string,
+    //   clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string,
+    //   authorization: {
+    //     params: { scope: "openid profile email" },
+    //   },
+    //   issuer: "https://www.linkedin.com",
+    //   jwks_endpoint: "https://www.linkedin.com/oauth/openid/jwks",
+    //   profile(profile, tokens) {
+    //     const defaultImage = "https://cdn-icons-png.flaticon.com/512/174/174857.png";
+    //     return {
+    //       id: profile.sub,
+    //       name: profile.name,
+    //       email: profile.email,
+    //       image: profile.picture ?? defaultImage,
+    //     };
+    //   },
+    //   allowDangerousEmailAccountLinking: true,
+    // }),
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
+      async sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { server, from },
+      }) {
+        try {
+          const { data, error } = await resend.emails.send({
+            from: "onboarding@resend.dev", // You can customize this after verifying your domain
+            to: email,
+            subject: "Sign in to Doctrack",
+            html: `<p>Please click the following link to sign in to Doctrack:</p>
+                  <p><a href="${url}">Sign in to Doctrack</a></p>`,
+          });
+
+          if (error) {
+            throw new Error(error.message);
+          }
+        } catch (error) {
+          console.error('Error sending verification email:', error);
+          throw new Error('Error sending verification email');
+        }
       },
-      from: process.env.EMAIL_FROM,
+      from: "onboarding@resend.dev", // Update this after verifying your domain
     }),
     PasskeyProvider({
       tenant: hanko,
-      async authorize({ userId }) {
-        const user = await prisma.user.findUnique({ where: { id: userId } });
-        if (!user) return null;
+      async authorize({ userId, token }) {
+        if (!userId) return null;
+        
+        let user = await prisma.user.findUnique({ 
+          where: { id: userId },
+        });
+    
+        if (!user) {
+          // Create user with temporary data
+          user = await prisma.user.create({
+            data: {
+              id: userId,
+              email: null, // Will be updated later
+            },
+          });
+        }
+    
         return user;
       },
     }),
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: process.env.EMAIL_SERVER_PORT,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD,
+    //     },
+    //   },
+    //   from: process.env.EMAIL_FROM,
+    // }),
+    // PasskeyProvider({
+    //   tenant: hanko,
+    //   async authorize({ userId }) {
+    //     const user = await prisma.user.findUnique({ where: { id: userId } });
+    //     if (!user) return null;
+    //     return user;
+    //   },
+    // }),
   ],
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -126,6 +206,8 @@ export const authOptions: NextAuthOptions = {
       });
     },
   },
+
+  
 };
 
 export default NextAuth(authOptions);

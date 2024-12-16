@@ -11,6 +11,8 @@ if (!process.env.HANKO_API_KEY || !process.env.NEXT_PUBLIC_HANKO_TENANT_ID) {
 const hanko = tenant({
   apiKey: process.env.HANKO_API_KEY!,
   tenantId: process.env.NEXT_PUBLIC_HANKO_TENANT_ID!,
+  baseUrl: "https://passkeys.hanko.io", // Add this line
+
 });
 
 export default hanko;
