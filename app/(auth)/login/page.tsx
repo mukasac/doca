@@ -147,7 +147,7 @@ export default function Login() {
                   {clickedMethod !== "google" && lastUsed === "google" && <LastUsed />}
                 </Button>
               </div>
-              <div className="relative">
+              {/* <div className="relative">
                 <Button
                   onClick={() => {
                     setClickedMethod("linkedin");
@@ -170,7 +170,7 @@ export default function Login() {
                     <LastUsed />
                   )}
                 </Button>
-              </div>
+              </div> */}
               {/* <div className="relative">
                 <Button
                   onClick={() => {
