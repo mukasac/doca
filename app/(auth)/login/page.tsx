@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { validateEmail } from "@/lib/utils/validate-email";
 
+
 export default function Login() {
   const { next } = useParams as { next?: string };
 
@@ -37,27 +38,23 @@ export default function Login() {
   const isValidEmail = email.length > 0 && validateEmail(email);
 
   return (
-    <div className="flex h-screen w-full flex-wrap">
-      {/* Left part */}
-      <div className="flex w-full justify-center bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600">
+    <div className="flex h-screen w-full flex-wrap bg-cover bg-center"
+    style={{
+      backgroundImage: `url(https://img.freepik.com/free-photo/portrait-interracial-couple-reading-together_23-2148139357.jpg?t=st=1734425339~exp=1734428939~hmac=f2794a1c6692d069d0c09c3cf862ed9e53fab8c2b834e88ac6db0dbe4d72adad&w=740)`,
+    }}
+    >
+      
+      <div className="flex w-full justify-center"
+      >
+      
         <div
           className="absolute inset-x-0 top-10 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
           aria-hidden="true"
         ></div>
-        <div className="z-10 mx-5 mt-[calc(20vh)] h-fit w-full max-w-screen overflow-hidden rounded-lg sm:mx-0">
-          <div className="flex flex-col items-center justify-center space-y-3 px-4 py-6 pt-8 text-center sm:px-16">
-            <Link href="/">
-              <span className="text-balance text-2xl font-semibold text-white">
-                Welcome to Doctrack
-              </span>
-            </Link>
-            <h3 className="text-balance text-sm text-white">
-              Share documents. Not attachments.
-            </h3>
-          </div>
-
-          <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-600 via-indigo-600 to-indigo-600">
-          <div className="w-full max-w-md space-y-4 bg-white p-6 rounded-lg shadow-md">
+        <div className="z-10 h-fit w-full max-w-screen overflow-hidden rounded-lg sm:mx-0">
+          <div className="flex min-h-screen items-center justify-center">
+             
+          <div className="w-full max-w-md space-y-4 bg-white p-6 rounded-lg shadow-md" style={{ background: '#403e3cab',backgroundSize: 'cover'}}>
             <form
               className="flex flex-col gap-4"
               onSubmit={(e) => {
@@ -83,6 +80,16 @@ export default function Login() {
                 });
               }}
             >
+                <div className="flex flex-col items-center justify-center space-y-3 px-4 text-center ">
+           
+              <h3 className=" text-2xl font-semibold ">
+                Welcome to Doctrack
+              </h3>
+           
+            <h6 className="text-balance text-sm">
+            <small><i>  Share documents. Not attachments.</i></small>
+            </h6>
+          </div>
               <Label className="" htmlFor="email">
                 Enter your email
               </Label>
@@ -164,7 +171,7 @@ export default function Login() {
                   )}
                 </Button>
               </div>
-              <div className="relative">
+              {/* <div className="relative">
                 <Button
                   onClick={() => {
                     setLastUsed("passkey");
@@ -182,7 +189,7 @@ export default function Login() {
                   <span>Continue with a passkey</span>
                   {lastUsed === "passkey" && <LastUsed />}
                 </Button>
-              </div>
+              </div> */}
             </div>
             <p className="mt-4 text-center text-xs text-gray-500">
               By clicking continue, you acknowledge that you have read and agree to
