@@ -25,6 +25,18 @@ export const config = {
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions: NextAuthOptions = {
+  debug: true, // Add this during development
+  logger: {
+    error: (code, ...message) => {
+      console.error(code, ...message)
+    },
+    warn: (code, ...message) => {
+      console.warn(code, ...message)
+    },
+    debug: (code, ...message) => {
+      console.debug(code, ...message)
+    },
+  },
   pages: {
     error: "/login",
   },
@@ -33,12 +45,20 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      },
+      debug: true  // Add this to get more detailed logs
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    //   allowDangerousEmailAccountLinking: true,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      allowDangerousEmailAccountLinking: true,
+    }),
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID || "",
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
@@ -51,6 +71,7 @@ export const authOptions: NextAuthOptions = {
       issuer: "https://www.linkedin.com",
       jwks_endpoint: "https://www.linkedin.com/oauth/openid/jwks",
       profile(profile, tokens) {
+        console.log("LinkedIn Profile:", profile); // Add this debug line
         const defaultImage = "https://cdn-icons-png.flaticon.com/512/174/174857.png";
         return {
           id: profile.sub,
