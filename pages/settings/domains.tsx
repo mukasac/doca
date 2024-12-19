@@ -45,8 +45,8 @@ export default function Domains() {
               {/* <h3 className="text-2xl font-semibold tracking-tight text-foreground"> */}
 
               <p className="text-2xl font-semibold tracking-tight text-foreground flx-row flex items-center gap-2">
-              How to connect a custom domain to your link?
-                <a href="https://www.papermark.io/help/article/how-to-add-custom-domain-to-link">CLick here</a>
+              Connect a custom domain
+                {/* <a href="https://www.papermark.io/help/article/how-to-add-custom-domain-to-link">CLick here</a> */}
               </p>
             
             </div>

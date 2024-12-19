@@ -34,18 +34,18 @@ export function SettingsHeader() {
           { label: "Domains", href: `/settings/domains`, segment: "domains" },
           { label: "Presets", href: `/settings/presets`, segment: "presets" },
           { label: "Billing", href: `/settings/billing`, segment: "billing" },
-          {
-            label: "Tokens",
-            href: `/settings/tokens`,
-            segment: "tokens",
-            disabled: !features?.tokens,
-          },
-          {
-            label: "Webhooks",
-            href: `/settings/webhooks`,
-            segment: "webhooks",
-            disabled: !features?.webhooks,
-          },
+          // {
+          //   label: "Tokens",
+          //   href: `/settings/tokens`,
+          //   segment: "tokens",
+          //   disabled: !features?.tokens,
+          // },
+          // {
+          //   label: "Webhooks",
+          //   href: `/settings/webhooks`,
+          //   segment: "webhooks",
+          //   disabled: !features?.webhooks,
+          // },
         ].map((item) => (
           <a
             key={item.segment}

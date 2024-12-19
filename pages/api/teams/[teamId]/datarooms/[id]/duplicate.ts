@@ -160,12 +160,12 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      if (team.plan.includes("drtrial")) {
-        return res.status(403).json({
-          message:
-            "You've reached the limit of datarooms. Consider upgrading your plan.",
-        });
-      }
+      // if (team.plan.includes("drtrial")) {
+      //   return res.status(403).json({
+      //     message:
+      //       "You've reached the limit of datarooms. Consider upgrading your plan.",
+      //   });
+      // }
 
       const dataroom = await prisma.dataroom.findUnique({
         where: {
@@ -180,18 +180,18 @@ export default async function handle(
       }
 
       // Check if the team has reached the limit of datarooms
-      const limits = await getLimits({ teamId, userId });
-      if (limits && team._count.datarooms >= limits.datarooms) {
-        console.log(
-          "Dataroom limit reached",
-          limits.datarooms,
-          team._count.datarooms,
-        );
-        return res.status(400).json({
-          message:
-            "You've reached the limit of datarooms. Consider upgrading your plan.",
-        });
-      }
+      // const limits = await getLimits({ teamId, userId });
+      // if (limits && team._count.datarooms >= limits.datarooms) {
+      //   console.log(
+      //     "Dataroom limit reached",
+      //     limits.datarooms,
+      //     team._count.datarooms,
+      //   );
+      //   return res.status(400).json({
+      //     message:
+      //       "You've reached the limit of datarooms. Consider upgrading your plan.",
+      //   });
+      // }
 
       // Fetch the existing data room structure
       const dataroomContents = await fetchDataroomContents(dataroomId);

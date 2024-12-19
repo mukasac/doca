@@ -60,7 +60,7 @@ const WelcomeEmail = ({ name }: WelcomeEmailProps) => {
                 href={`${process.env.NEXT_PUBLIC_BASE_URL}/welcome`}
                 style={{ padding: "12px 20px" }}
               >
-                Get Started
+                Get Startedgg
               </Button>
             </Section>
             <Section>

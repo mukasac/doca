@@ -89,7 +89,7 @@ export default function General() {
             }
           />
 
-          <div className="">
+          {/* <div className="">
             <div className="space-y-6">
               <div className="space-y-3">
                 <h2 className="text-xl font-medium">Register a passkey</h2>
@@ -107,7 +107,7 @@ export default function General() {
                 <span>Register a new passkey</span>
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <DeleteTeam />
         </div>

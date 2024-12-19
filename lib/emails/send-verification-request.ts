@@ -18,7 +18,7 @@ export const sendVerificationRequestEmail = async (params: {
   try {
     await sendEmail({
       to: email as string,
-      subject: "Welcome to Papermark!",
+      subject: "Welcome to Doctrack!",
       react: emailTemplate,
     });
   } catch (e) {

@@ -1,10 +1,7 @@
 import Link from "next/link";
-
 import { useState } from "react";
+import { CircleHelpIcon, UsersIcon } from "lucide-react";
 
-import { CircleHelpIcon, InfoIcon, UsersIcon } from "lucide-react";
-
-import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { DataroomHeader } from "@/components/datarooms/dataroom-header";
 import { DataroomNavigation } from "@/components/datarooms/dataroom-navigation";
 import { AddGroupModal } from "@/components/datarooms/groups/add-group-modal";
@@ -14,13 +11,11 @@ import AppLayout from "@/components/layouts/app";
 import { Button } from "@/components/ui/button";
 import { BadgeTooltip } from "@/components/ui/tooltip";
 
-import { usePlan } from "@/lib/swr/use-billing";
 import { useDataroom } from "@/lib/swr/use-dataroom";
 import useDataroomGroups from "@/lib/swr/use-dataroom-groups";
 import { cn } from "@/lib/utils";
 
 export default function DataroomGroupPage() {
-  const { plan, trial } = usePlan();
   const { dataroom } = useDataroom();
   const { viewerGroups, loading } = useDataroomGroups();
 
@@ -30,16 +25,9 @@ export default function DataroomGroupPage() {
     return <div>Loading...</div>;
   }
 
-  const ButtonComponent = () => {
-    if (plan === "datarooms" || trial) {
-      return <Button onClick={() => setModalOpen(true)}>Create group</Button>;
-    }
-    return (
-      <UpgradePlanModal clickedPlan="Data Rooms" trigger="create_group_button">
-        <Button>Upgrade to create group</Button>
-      </UpgradePlanModal>
-    );
-  };
+  const ButtonComponent = () => (
+    <Button onClick={() => setModalOpen(true)}>Create group</Button>
+  );
 
   return (
     <AppLayout>
@@ -100,7 +88,7 @@ export default function DataroomGroupPage() {
                     <div className="hidden rounded-full border border-gray-200 sm:block">
                       <div
                         className={cn(
-                          "rounded-full border border-white bg-gradient-to-t from-gray-100 p-1 md:p-3",
+                          "rounded-full border border-white bg-gradient-to-t from-gray-100 p-1 md:p-3"
                         )}
                       >
                         <UsersIcon className="size-6" />

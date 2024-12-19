@@ -139,8 +139,8 @@ export default function Branding() {
           <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
             <div className="space-y-1">
               <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-              How to customize document branding?
-                <a href="https://www.papermark.io/help/article/document-branding">Click here</a>
+              Customize your document branding.
+                {/* <a href="https://www.papermark.io/help/article/document-branding">Click here</a> */}
               </h3>
               
               

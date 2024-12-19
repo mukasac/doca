@@ -34,7 +34,7 @@ import { resizeImage } from "@/lib/utils/resize-image";
 
 export default function Presets() {
   const teamInfo = useTeam();
-  const { plan } = usePlan();
+  // const { plan } = usePlan();
   const { data: presets, mutate: mutatePreset } = useSWRImmutable<LinkPreset>(
     `/api/teams/${teamInfo?.currentTeam?.id}/presets`,
     fetcher,
@@ -222,13 +222,13 @@ export default function Presets() {
               </h3>
               <p className="flex flex-row items-center gap-2 text-sm text-muted-foreground">
                 Configure your default link settings.
-                <BadgeTooltip
+                {/* <BadgeTooltip
                   content="Customize how your content appears when shared on social media."
                   key="verified"
                   link="https://www.papermark.io/help/article/change-social-media-cards"
                 >
                   <CircleHelpIcon className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-foreground" />
-                </BadgeTooltip>
+                </BadgeTooltip> */}
               </p>
             </div>
           </div>
@@ -531,20 +531,13 @@ export default function Presets() {
                 </div>
 
                 <div className="flex justify-end">
-                  {plan === "free" ? (
-                    <UpgradePlanModal
-                      clickedPlan="Pro"
-                      trigger={"branding_page"}
-                    >
-                      <Button>Upgrade to Save Preset</Button>
-                    </UpgradePlanModal>
-                  ) : (
+                  
                     <Button onClick={handleSavePreset} loading={isLoading}>
                       Save Preset
                     </Button>
-                  )}
+                
 
-                  {presets ? (
+                
                     <Button
                       variant="link"
                       onClick={handleDelete}
@@ -553,7 +546,7 @@ export default function Presets() {
                     >
                       Reset
                     </Button>
-                  ) : null}
+                 
                 </div>
               </div>
             </div>
